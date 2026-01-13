@@ -7,7 +7,7 @@ import AsideNavbar from './components/AsideNavbar';
 const translations = {
   en: {
     status: "Status: Coming Soon",
-    online: "Players Online:",
+    online: "Players Online Discord:",
     heroTitle1: "New Era",
     heroTitle2: "Starts Today",
     heroDesc: "A space where fantasies become reality.",
@@ -32,7 +32,7 @@ const translations = {
   },
   ru: {
     status: "Статус: Скоро Запуск",
-    online: "Игроков Онлайн:",
+    online: "Игроков Онлайн Discord:",
     heroTitle1: "Новая Эра",
     heroTitle2: "Начинается Сегодня",
     heroDesc: "Пространство, где фантазии становятся реальностью.",
@@ -57,7 +57,7 @@ const translations = {
   },
   ua: {
     status: "Статус: Скоро Запуск",
-    online: "Гравців Онлайн:",
+    online: "Гравців Онлайн Discord:",
     heroTitle1: "Нова Ера",
     heroTitle2: "Починається Сьогодні",
     heroDesc: "Простір, де фантазії стають реальністю.",
@@ -82,7 +82,7 @@ const translations = {
   },
   be: {
     status: "Статус: Хутка Запуск",
-    online: "Гульцоў Анлайн:",
+    online: "Гульцоў Анлайн Discord:",
     heroTitle1: "Новая Эра",
     heroTitle2: "Пачынаецца Сёння",
     heroDesc: "Прастора, дзе фантазіі становяцца рэальнасцю.",
