@@ -268,7 +268,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-end items-start min-[960px]:items-end">
             <button onClick={handleCopyEmail} className="text-[32px] min-[960px]:text-[56px] font-bold text-white hover:text-hytale-accent transition-colors mb-4 min-[960px]:mb-6 break-all text-left min-[960px]:text-right leading-none">
-              admin@hytale.ru
+              multiplacehytalecontact@gmail.com
             </button>
             <p className="text-[18px] min-[960px]:text-[28px] text-gray-600 uppercase tracking-widest">Administration Contact</p>
           </div>

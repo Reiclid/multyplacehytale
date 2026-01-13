@@ -74,8 +74,8 @@ const AsideNavbar: React.FC<AsideProps> = ({ lang = 'en' }) => {
 
                 {/* FOOTER ICONS */}
                 <div className="flex flex-col items-center gap-6 mb-4 opacity-50 group-hover:opacity-100 transition-opacity duration-300">
-                    <a href="https://discord.gg/SMK6CF2Etq" className="hover:text-[#EAB308] transition-colors"><i className="fab fa-discord text-[2vw] text-white"></i></a>
-                    <a href="https://t.me/mphytale" className="hover:text-[#EAB308] transition-colors"><i className="fab fa-telegram text-[2vw] text-white"></i></a>
+                    <a href="https://discord.gg/SMK6CF2Etq" className="hover:text-[#EAB308] transition-colors"><i className="hover:text-[#5865F2] fab fa-discord text-[2vw] text-white"></i></a>
+                    <a href="https://t.me/mphytale" className="hover:text-[#EAB308] transition-colors"><i className="hover:text-[#229ED9] fab fa-telegram text-[2vw] text-white"></i></a>
                 </div>
             </aside>
 
