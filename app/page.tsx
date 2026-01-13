@@ -115,24 +115,45 @@ export default function Home() {
   const t = translations[lang];
 
   useEffect(() => {
-    document.documentElement.style.scrollBehavior = 'smooth';
-    
     const fetchDiscordOnline = async () => {
       try {
+        // Встав сюди ID твого реального сервера
         const GUILD_ID = '1444370880686981142'; 
-        if (GUILD_ID === '1444370880686981142') return; // Заглушка з твого коду
+        
+        // ВАЖЛИВО: Видали цю перевірку, якщо вона блокує твій ID
+        // if (GUILD_ID === '1444370880686981142') {
+        //    console.log("Заглушка ID, запит скасовано.");
+        //    return;
+        // }
+
+        console.log(`Відправляю запит на Discord API для ID: ${GUILD_ID}...`);
+
         const response = await fetch(`https://discord.com/api/guilds/${GUILD_ID}/widget.json`);
+        
+        if (!response.ok) {
+            console.error(`Помилка запиту: ${response.status} ${response.statusText}`);
+            return;
+        }
+
         const data = await response.json();
-        if (data && data.presence_count) setOnlineCount(data.presence_count);
-      } catch (error) { console.error(error); }
+        console.log("Отримані дані від Discord:", data); // <--- ОСЬ ТУТ МИ ПОБАЧИМО РЕЗУЛЬТАТ
+
+        if (data && data.presence_count) {
+            console.log(`Онлайн встановлено: ${data.presence_count}`);
+            setOnlineCount(data.presence_count);
+        }
+      } catch (error) { 
+          console.error("Критична помилка fetch:", error); 
+      }
     };
+    
     fetchDiscordOnline();
-  }, []);
+}, []);
 
   const changeLang = (l: Language) => setLang(l);
   
   const handleCopyEmail = () => {
-    const email = "admin@hytale.ru"; 
+    const email = "multiplacehytalecontact@gmail.com"; 
     navigator.clipboard.writeText(email).then(() => alert(`Email copied: ${email}`)).catch(console.error);
   };
 
