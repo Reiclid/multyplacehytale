@@ -27,7 +27,7 @@ export default function RootLayout({
       </head>
       <body className={`${nunitoSans.variable} antialiased bg-[#0B0F19] text-white w-full overflow-x-hidden`}>
         {/* Додаємо відступ зліва ТІЛЬКИ для екранів ширше 960px */}
-        <main className="w-full min-[960px]:pl-[5vw] transition-all duration-300">
+        <main className="w-full">
           {children}
         </main>
       </body>

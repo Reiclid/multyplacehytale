@@ -137,7 +137,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className={`w-full min-[960px]:pl-[5vw] transition-all duration-300`}>
       <AsideNavbar lang={lang} />
 
       {/* LANGUAGE SWITCHER */}
@@ -274,6 +274,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
