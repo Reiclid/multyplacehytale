@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import AsideNavbar from './components/AsideNavbar';
 
-// Твої переклади (залишаю без змін скорочено для прикладу, встав повний об'єкт сюди)
+// ... (Тут твій об'єкт translations без змін) ...
 const translations = {
   en: {
     status: "Status: Coming Soon",
@@ -117,56 +117,30 @@ export default function Home() {
   useEffect(() => {
     const fetchDiscordOnline = async () => {
       try {
-        // Встав сюди ID твого реального сервера
         const GUILD_ID = '1444370880686981142'; 
-        
-        // ВАЖЛИВО: Видали цю перевірку, якщо вона блокує твій ID
-        // if (GUILD_ID === '1444370880686981142') {
-        //    console.log("Заглушка ID, запит скасовано.");
-        //    return;
-        // }
-
         console.log(`Відправляю запит на Discord API для ID: ${GUILD_ID}...`);
-
         const response = await fetch(`https://discord.com/api/guilds/${GUILD_ID}/widget.json`);
-        
-        if (!response.ok) {
-            console.error(`Помилка запиту: ${response.status} ${response.statusText}`);
-            return;
-        }
-
+        if (!response.ok) return;
         const data = await response.json();
-        console.log("Отримані дані від Discord:", data); // <--- ОСЬ ТУТ МИ ПОБАЧИМО РЕЗУЛЬТАТ
-
         if (data && data.presence_count) {
-            console.log(`Онлайн встановлено: ${data.presence_count}`);
             setOnlineCount(data.presence_count);
         }
-      } catch (error) { 
-          console.error("Критична помилка fetch:", error); 
-      }
+      } catch (error) { console.error("Error fetching online:", error); }
     };
-    
     fetchDiscordOnline();
-}, []);
+  }, []);
 
   const changeLang = (l: Language) => setLang(l);
-  
-  const handleCopyEmail = () => {
-    const email = "multiplacehytalecontact@gmail.com"; 
-    navigator.clipboard.writeText(email).then(() => alert(`Email copied: ${email}`)).catch(console.error);
-  };
 
   return (
-    <div className={`w-full min-[960px]:pl-[5vw] transition-all duration-300`}>
+    <div className={`w-full min-[960px]:pl-[5vw] transition-all duration-300 bg-[#0B0F19]`}>
       <AsideNavbar lang={lang} />
 
       {/* LANGUAGE SWITCHER */}
-      {/* Адаптація: на мобільному він менший і трохи нижче через Header */}
-      <div className="fixed top-20 right-4 min-[960px]:top-8 min-[960px]:right-8 z-40 glass-card px-4 py-2 min-[960px]:px-6 min-[960px]:py-3 rounded-full flex gap-3 min-[960px]:gap-4 text-[14px] min-[960px]:text-[20px] font-bold tracking-widest text-gray-400">
+      <div className="fixed top-20 right-4 min-[960px]:top-8 min-[960px]:right-8 z-40 glass-card px-4 py-2 min-[960px]:px-6 min-[960px]:py-3 rounded-full flex gap-3 min-[960px]:gap-4 text-[14px] min-[960px]:text-[20px] font-bold tracking-widest text-gray-400 border border-white/10 bg-black/40 backdrop-blur-md">
         {(['ru', 'en', 'ua', 'be'] as Language[]).map((l, index, arr) => (
             <React.Fragment key={l}>
-                <button onClick={() => changeLang(l)} className={`hover:text-white transition-colors ${lang === l ? 'text-hytale-accent' : ''}`}>
+                <button onClick={() => changeLang(l)} className={`hover:text-white transition-colors ${lang === l ? 'text-green-500' : ''}`}>
                     {l.toUpperCase()}
                 </button>
                 {index < arr.length - 1 && <span className="w-[1px] bg-white/20"></span>}
@@ -178,15 +152,21 @@ export default function Home() {
       <header 
         id="home" 
         className="h-screen flex flex-col justify-center relative px-6 min-[960px]:px-24 overflow-hidden"
-        style={{
-           backgroundImage: `linear-gradient(to right, rgba(11, 15, 25, 0.4) 0%, rgba(11, 15, 25, 0.2) 100%), url('/bg-content.jpg')`,
-           backgroundSize: 'cover',
-           backgroundPosition: 'center'
-        }}
       >
+         {/* Background with Dark Overlay */}
+         <div 
+            className="absolute inset-0 z-0"
+            style={{
+               backgroundImage: `linear-gradient(to right, rgba(11, 15, 25, 0.9) 0%, rgba(11, 15, 25, 0.6) 100%), url('/bg-content.jpg')`,
+               backgroundSize: 'cover',
+               backgroundPosition: 'center'
+            }}
+        ></div>
+
         <div className="max-w-6xl z-10 animate-fade-in-up mt-20 min-[960px]:mt-0">
-          <div className="mb-6 min-[960px]:mb-10 inline-flex items-center gap-4 border-l-4 border-hytale-accent pl-4 min-[960px]:pl-6 bg-black/40 backdrop-blur-sm py-2 pr-6">
-            <span className="text-[16px] min-[960px]:text-[24px] font-bold tracking-[0.2em] text-hytale-accent uppercase">
+          {/* Status badge - Green */}
+          <div className="mb-6 min-[960px]:mb-10 inline-flex items-center gap-4 border-l-4 border-green-500 pl-4 min-[960px]:pl-6 bg-black/40 backdrop-blur-sm py-2 pr-6">
+            <span className="text-[16px] min-[960px]:text-[24px] font-bold tracking-[0.2em] text-green-400 uppercase drop-shadow-[0_0_5px_rgba(74,222,128,0.5)]">
               {t.status}
             </span>
           </div>
@@ -202,7 +182,8 @@ export default function Home() {
 
           <h1 className="text-[40px] min-[960px]:text-[110px] font-display font-black text-white mb-6 min-[960px]:mb-8 leading-[0.9] uppercase drop-shadow-2xl">
             {t.heroTitle1} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">
+            {/* Green Gradient */}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 drop-shadow-[0_0_15px_rgba(34,197,94,0.3)]">
               {t.heroTitle2}
             </span>
           </h1>
@@ -212,11 +193,11 @@ export default function Home() {
           </p>
         </div>
 
-        {/* BOTTOM STATUS BAR (Тільки на ПК) */}
+        {/* BOTTOM STATUS BAR */}
         <div className="hidden min-[960px]:flex absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-md p-6 border-t border-white/10 justify-between items-center text-[20px] font-mono text-gray-400">
-            <span>SYS.VER. 0.0.1-BETA</span>
+            <span>SYS.VER. 0.0.2-BETA</span>
             <span>HYPIXEL STUDIOS / FAN PROJECT</span>
-            <span>RUSSIAN REGION</span>
+            <span>REGION: RU</span>
         </div>
       </header>
 
@@ -228,33 +209,33 @@ export default function Home() {
         </div>
         
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-8 min-[960px]:gap-12">
-          {/* Discord */}
-          <article className="glass-card p-8 min-[960px]:p-12 group relative overflow-hidden h-full">
-            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><i className="fab fa-discord text-[120px] min-[960px]:text-[200px] text-[#5865F2]"></i></div>
+          {/* Discord Card - Now with Brand Colors */}
+          <article className="bg-[#111625] border border-white/5 p-8 min-[960px]:p-12 group relative overflow-hidden h-full hover:border-[#5865F2] transition-colors duration-300">
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><i className="fab fa-discord text-[120px] min-[960px]:text-[200px] text-white"></i></div>
             <h3 className="text-[32px] min-[960px]:text-[44px] font-bold text-white mb-4 min-[960px]:mb-6 group-hover:text-[#5865F2] transition-colors">{t.discordTitle}</h3>
-            <p className="text-gray-300 text-[18px] min-[960px]:text-[28px] mb-6 min-[960px]:mb-10 font-light">{t.discordDesc}</p>
-            <a href="https://discord.gg/SMK6CF2Etq" className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-[#5865F2] hover:text-[#5865F2]">Link <i className="fas fa-arrow-right"></i></a>
+            <p className="text-gray-400 text-[18px] min-[960px]:text-[28px] mb-6 min-[960px]:mb-10 font-light">{t.discordDesc}</p>
+            <a href="https://discord.gg/SMK6CF2Etq" className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-white group-hover:border-[#5865F2] group-hover:text-[#5865F2] transition-colors">Link <i className="fas fa-arrow-right"></i></a>
           </article>
-          {/* Telegram */}
-          <article className="glass-card p-8 min-[960px]:p-12 group relative overflow-hidden h-full">
-            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><i className="fab fa-telegram text-[120px] min-[960px]:text-[200px] text-[#229ED9]"></i></div>
+          {/* Telegram Card - Now with Brand Colors */}
+          <article className="bg-[#111625] border border-white/5 p-8 min-[960px]:p-12 group relative overflow-hidden h-full hover:border-[#229ED9] transition-colors duration-300">
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><i className="fab fa-telegram text-[120px] min-[960px]:text-[200px] text-white"></i></div>
             <h3 className="text-[32px] min-[960px]:text-[44px] font-bold text-white mb-4 min-[960px]:mb-6 group-hover:text-[#229ED9] transition-colors">{t.telegramTitle}</h3>
-            <p className="text-gray-300 text-[18px] min-[960px]:text-[28px] mb-6 min-[960px]:mb-10 font-light">{t.telegramDesc}</p>
-            <a href="https://t.me/mphytale" className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-[#229ED9] hover:text-[#229ED9]">Link <i className="fas fa-arrow-right"></i></a>
+            <p className="text-gray-400 text-[18px] min-[960px]:text-[28px] mb-6 min-[960px]:mb-10 font-light">{t.telegramDesc}</p>
+            <a href="https://t.me/mphytale" className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-white group-hover:border-[#229ED9] group-hover:text-[#229ED9] transition-colors">Link <i className="fas fa-arrow-right"></i></a>
           </article>
         </div>
       </section>
 
       {/* --- SERVERS SECTION --- */}
-      <section id="servers" className="py-20 min-[960px]:py-32 px-6 min-[960px]:px-24 bg-[#0f1421] relative overflow-hidden min-h-screen flex flex-col justify-center">
+      <section id="servers" className="py-20 min-[960px]:py-32 px-6 min-[960px]:px-24 bg-[#0F131F] relative overflow-hidden min-h-screen flex flex-col justify-center">
         <h2 className="text-[48px] min-[960px]:text-[96px] font-display font-bold text-white mb-12 min-[960px]:mb-24 text-center">
-          {t.serversTitle} <span className="text-hytale-accent">{t.serversTitleHighlight}</span>
+          {t.serversTitle} <span className="text-green-500 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]">{t.serversTitleHighlight}</span>
         </h2>
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-12 min-[960px]:gap-16 max-w-7xl mx-auto">
-            {/* Card 1 */}
-            <div className="glass-card p-8 min-[960px]:p-12 border-t-4 border-hytale-accent flex flex-col relative group">
-                <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-black border-2 border-hytale-accent flex items-center justify-center rounded-lg shadow-[0_0_20px_rgba(234,179,8,0.4)] z-10">
-                    <i className="fas fa-compass text-[30px] min-[960px]:text-[40px] text-hytale-accent"></i>
+            {/* Card 1 - Survival (Active Green) */}
+            <div className="bg-[#161B28] p-8 min-[960px]:p-12 border-t-4 border-green-500 shadow-2xl flex flex-col relative group hover:bg-[#1C2230] transition-colors">
+                <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-[#0B0F19] border-2 border-green-500 flex items-center justify-center rounded-lg shadow-[0_0_20px_rgba(34,197,94,0.4)] z-10">
+                    <i className="fas fa-compass text-[30px] min-[960px]:text-[40px] text-green-500"></i>
                 </div>
                 <h3 className="text-[32px] min-[960px]:text-[40px] font-bold text-white mt-8 mb-4 min-[960px]:mb-6">{t.serverName}</h3>
                 <p className="text-[18px] min-[960px]:text-[24px] text-gray-400 mb-6 min-[960px]:mb-8 font-light leading-relaxed flex-grow">{t.serverDesc}</p>
@@ -262,15 +243,15 @@ export default function Home() {
                     <span className="inline-block px-4 py-2 bg-green-900/30 text-green-400 border border-green-500/30 rounded text-sm font-bold tracking-wider uppercase">Online</span>
                 </div>
             </div>
-             {/* Card 2 */}
-            <div className="glass-card p-8 min-[960px]:p-12 border-t-4 border-gray-700 opacity-75 flex flex-col relative grayscale">
-                 <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-black border-2 border-gray-600 flex items-center justify-center rounded-lg z-10">
-                    <i className="fas fa-lock text-[24px] min-[960px]:text-[30px] text-gray-400"></i>
+             {/* Card 2 - Minigames (Inactive Gray/White) */}
+            <div className="bg-[#161B28] p-8 min-[960px]:p-12 border-t-4 border-gray-600 opacity-60 flex flex-col relative grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                 <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-[#0B0F19] border-2 border-gray-500 flex items-center justify-center rounded-lg z-10">
+                    <i className="fas fa-gamepad text-[24px] min-[960px]:text-[30px] text-gray-400"></i>
                 </div>
-                <h3 className="text-[32px] min-[960px]:text-[40px] font-bold text-gray-300 mt-8 mb-4 min-[960px]:mb-6">{t.miniName}</h3>
+                <h3 className="text-[32px] min-[960px]:text-[40px] font-bold text-white mt-8 mb-4 min-[960px]:mb-6">{t.miniName}</h3>
                 <p className="text-[18px] min-[960px]:text-[24px] text-gray-500 mb-6 min-[960px]:mb-8 font-light leading-relaxed flex-grow">{t.miniDesc}</p>
                 <div className="pt-6 min-[960px]:pt-8 border-t border-white/5">
-                    <span className="inline-block px-4 py-2 bg-gray-800 text-gray-400 border border-gray-600 rounded text-sm font-bold tracking-wider uppercase">{t.comingSoon}</span>
+                    <span className="inline-block px-4 py-2 bg-white/5 text-gray-400 border border-white/10 rounded text-sm font-bold tracking-wider uppercase">{t.comingSoon}</span>
                 </div>
             </div>
         </div>
@@ -281,17 +262,15 @@ export default function Home() {
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-12 min-[960px]:gap-24">
           <div>
             <div className="text-[48px] min-[960px]:text-[64px] font-display font-black text-white tracking-widest mb-6 min-[960px]:mb-10 leading-none">
-              HYTALE<span className="text-hytale-accent">RU</span>
+              HYTALE<span className="text-green-500">RU</span>
             </div>
             <p className="text-[20px] min-[960px]:text-[32px] text-gray-500 mb-8 min-[960px]:mb-16 max-w-2xl leading-tight">
               {t.footerTitle} <br /> {t.footerSub}
             </p>
           </div>
           <div className="flex flex-col justify-end items-start min-[960px]:items-end">
-            <button onClick={handleCopyEmail} className="text-[32px] min-[960px]:text-[56px] font-bold text-white hover:text-hytale-accent transition-colors mb-4 min-[960px]:mb-6 break-all text-left min-[960px]:text-right leading-none">
-              multiplacehytalecontact@gmail.com
-            </button>
-            <p className="text-[18px] min-[960px]:text-[28px] text-gray-600 uppercase tracking-widest">Administration Contact</p>
+            <p className="text-[18px] min-[960px]:text-[28px] text-green-500 uppercase tracking-widest font-bold">Administration Contact</p>
+             <p className="text-gray-500 mt-2">Available via Discord & Telegram</p>
           </div>
         </div>
       </section>
