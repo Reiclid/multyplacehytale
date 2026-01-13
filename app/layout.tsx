@@ -7,10 +7,41 @@ const nunitoSans = Nunito_Sans({
   subsets: ["latin", "cyrillic"],
 });
 
+const baseUrl = 'https://multiplacehytale.fun';
+
 export const metadata: Metadata = {
-  title: "Hytale.ru - New Era",
-  description: "Official server website",
+  metadataBase: new URL(baseUrl),
+  title: "MultiPlace Hytale | Новая Эра",
+  description: "Официальный сервер Hytale. Выживание, мини-игры и уникальная атмосфера. Присоединяйся к новой эре гейминга!",
+  
+  // Налаштування для Facebook, Discord, Telegram
+  openGraph: {
+    title: "MultiPlace Hytale — Новая Эра Начинается",
+    description: "Простые ванильные механики. Только ты и мир. Заходи на лучший сервер Hytale.",
+    url: baseUrl,
+    siteName: "MultiPlace Hytale",
+    images: [
+      {
+        url: '/og-image.jpg', // Шлях до картинки в папці public
+        width: 1200,
+        height: 630,
+        alt: 'MultiPlace Hytale Server Preview',
+      },
+    ],
+    locale: 'ru_RU',
+    type: 'website',
+  },
+
+  // Налаштування спеціально для Twitter (X)
+  twitter: {
+    card: 'summary_large_image', // Робить картинку великою
+    title: "MultiPlace Hytale — Играй Сейчас",
+    description: "Присоединяйся к сообществу. Выживание и мини-игры ждут тебя.",
+    images: ['/og-image.jpg'],
+  },
 };
+
+
 
 export default function RootLayout({
   children,
