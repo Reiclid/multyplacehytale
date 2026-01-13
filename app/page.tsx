@@ -262,7 +262,7 @@ export default function Home() {
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-12 min-[960px]:gap-24">
           <div>
             <div className="text-[48px] min-[960px]:text-[64px] font-display font-black text-white tracking-widest mb-6 min-[960px]:mb-10 leading-none">
-              HYTALE<span className="text-green-500">RU</span>
+              MULTIPLACE<span className="text-green-500">RU</span>
             </div>
             <p className="text-[20px] min-[960px]:text-[32px] text-gray-500 mb-8 min-[960px]:mb-16 max-w-2xl leading-tight">
               {t.footerTitle} <br /> {t.footerSub}
