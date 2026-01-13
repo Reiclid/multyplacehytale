@@ -210,19 +210,19 @@ export default function Home() {
         
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-8 min-[960px]:gap-12">
           {/* Discord Card - Now with Brand Colors */}
-          <article className="bg-[#111625] border border-white/5 p-8 min-[960px]:p-12 group relative overflow-hidden h-full hover:border-[#5865F2] transition-colors duration-300">
+          <a href="https://discord.gg/SMK6CF2Etq" className="bg-[#111625] border border-white/5 p-8 min-[960px]:p-12 group relative overflow-hidden h-full hover:border-[#5865F2] transition-colors duration-300">
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><i className="fab fa-discord text-[120px] min-[960px]:text-[200px] text-white"></i></div>
             <h3 className="text-[32px] min-[960px]:text-[44px] font-bold text-white mb-4 min-[960px]:mb-6 group-hover:text-[#5865F2] transition-colors">{t.discordTitle}</h3>
             <p className="text-gray-400 text-[18px] min-[960px]:text-[28px] mb-6 min-[960px]:mb-10 font-light">{t.discordDesc}</p>
-            <a href="https://discord.gg/SMK6CF2Etq" className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-white group-hover:border-[#5865F2] group-hover:text-[#5865F2] transition-colors">Link <i className="fas fa-arrow-right"></i></a>
-          </article>
+            <p className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-white group-hover:border-[#5865F2] group-hover:text-[#5865F2] transition-colors">Link <i className="fas fa-arrow-right"></i></p>
+          </a>
           {/* Telegram Card - Now with Brand Colors */}
-          <article className="bg-[#111625] border border-white/5 p-8 min-[960px]:p-12 group relative overflow-hidden h-full hover:border-[#229ED9] transition-colors duration-300">
+          <a href="https://t.me/mphytale" className="bg-[#111625] border border-white/5 p-8 min-[960px]:p-12 group relative overflow-hidden h-full hover:border-[#229ED9] transition-colors duration-300">
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity"><i className="fab fa-telegram text-[120px] min-[960px]:text-[200px] text-white"></i></div>
             <h3 className="text-[32px] min-[960px]:text-[44px] font-bold text-white mb-4 min-[960px]:mb-6 group-hover:text-[#229ED9] transition-colors">{t.telegramTitle}</h3>
             <p className="text-gray-400 text-[18px] min-[960px]:text-[28px] mb-6 min-[960px]:mb-10 font-light">{t.telegramDesc}</p>
-            <a href="https://t.me/mphytale" className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-white group-hover:border-[#229ED9] group-hover:text-[#229ED9] transition-colors">Link <i className="fas fa-arrow-right"></i></a>
-          </article>
+            <p className="text-[20px] min-[960px]:text-[24px] font-bold text-white border-b-2 border-white group-hover:border-[#229ED9] group-hover:text-[#229ED9] transition-colors">Link <i className="fas fa-arrow-right"></i></p>
+          </a>
         </div>
       </section>
 
@@ -261,8 +261,8 @@ export default function Home() {
       <section id="contact" className="py-20 min-[960px]:py-32 bg-[#05080f] border-t border-white/10 px-6 min-[960px]:px-24 min-h-[50vh] flex flex-col justify-center">
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-12 min-[960px]:gap-24">
           <div>
-            <div className="text-[48px] min-[960px]:text-[64px] font-display font-black text-white tracking-widest mb-6 min-[960px]:mb-10 leading-none">
-              MULTIPLACE<span className="text-green-500">RU</span>
+            <div className="text-[40px] min-[960px]:text-[64px] font-display font-black text-white tracking-widest mb-6 min-[960px]:mb-10 leading-none">
+              MULTI<span className="text-green-500">PLACE</span>
             </div>
             <p className="text-[20px] min-[960px]:text-[32px] text-gray-500 mb-8 min-[960px]:mb-16 max-w-2xl leading-tight">
               {t.footerTitle} <br /> {t.footerSub}
