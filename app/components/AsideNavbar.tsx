@@ -50,7 +50,7 @@ const AsideNavbar: React.FC<AsideProps> = ({ lang = 'en' }) => {
     return (
         <>
             {/* ================= DESKTOP SIDEBAR (> 960px) ================= */}
-            <aside className="hidden min-[960px]:flex fixed left-0 top-0 h-screen w-[5vw] hover:w-1/6 bg-[#0B0F19] border-r border-white/10 transition-all duration-300 ease-out z-50 group overflow-hidden flex-col justify-between py-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+            <aside className="hidden min-[960px]:flex fixed left-0 top-0 h-screen w-[5vw] hover:w-1/6 bg-[#0B0F19] border-r border-white/10 transition-all duration-300 ease-out z-50 group overflow-hidden overflow-y-auto flex-col justify-between py-8 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
                 
                 {/* LOGO AREA */}
                 <div className="flex items-center justify-center h-[2vw] mb-8 whitespace-nowrap">

@@ -6,6 +6,8 @@ import AsideNavbar from './components/AsideNavbar';
 // ... (Тут твій об'єкт translations без змін) ...
 const translations = {
   en: {
+    ipCopied: "IP COPIED!",
+    copyTooltip: "Click to Copy",
     status: "Status: Open to Play",
     online: "Players Online Discord:",
     heroTitle1: "New Era",
@@ -31,6 +33,8 @@ const translations = {
     footerSub: "Don't miss the start."
   },
   ru: {
+    ipCopied: "IP СКОПИРОВАН!",
+    copyTooltip: "Нажми чтобы скопировать",
     status: "Статус: Открыт для Игры",
     online: "Игроков Онлайн Discord:",
     heroTitle1: "Новая Эра",
@@ -56,6 +60,8 @@ const translations = {
     footerSub: "Не пропусти старт."
   },
   ua: {
+    ipCopied: "IP СКОПІЙОВАНО!",
+    copyTooltip: "Натисни щоб скопіювати",
     status: "Статус: Відкритий для Гри",
     online: "Гравців Онлайн Discord:",
     heroTitle1: "Нова Ера",
@@ -81,6 +87,8 @@ const translations = {
     footerSub: "Не пропусти старт."
   },
   be: {
+    ipCopied: "IP СКАПІЯВАНЫ!",
+    copyTooltip: "Націсні каб скапіяваць",
     status: "Статус: Адкрыты для Гульні",
     online: "Гульцоў Анлайн Discord:",
     heroTitle1: "Новая Эра",
@@ -110,20 +118,24 @@ const translations = {
 type Language = 'en' | 'ua' | 'ru' | 'be';
 
 export default function Home() {
-  const [lang, setLang] = useState<Language>('ru'); 
+  const [lang, setLang] = useState<Language>('ru');
   const [onlineCount, setOnlineCount] = useState<number | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
   const t = translations[lang];
+
+  const SERVER_CAPACITY = 100;
+  const SERVER_IP = "play.mphytale.ru";
 
   useEffect(() => {
     const fetchDiscordOnline = async () => {
       try {
-        const GUILD_ID = '1444370880686981142'; 
+        const GUILD_ID = '1444370880686981142';
         console.log(`Відправляю запит на Discord API для ID: ${GUILD_ID}...`);
         const response = await fetch(`https://discord.com/api/guilds/${GUILD_ID}/widget.json`);
         if (!response.ok) return;
         const data = await response.json();
         if (data && data.presence_count) {
-            setOnlineCount(data.presence_count);
+          setOnlineCount(data.presence_count);
         }
       } catch (error) { console.error("Error fetching online:", error); }
     };
@@ -132,6 +144,16 @@ export default function Home() {
 
   const changeLang = (l: Language) => setLang(l);
 
+  const handleCopyIp = () => {
+    navigator.clipboard.writeText(SERVER_IP);
+    setIsCopied(true);
+
+    // Повертаємо текст назад через 2 секунди
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+  };
+
   return (
     <div className={`w-full min-[960px]:pl-[5vw] transition-all duration-300 bg-[#0B0F19]`}>
       <AsideNavbar lang={lang} />
@@ -139,65 +161,111 @@ export default function Home() {
       {/* LANGUAGE SWITCHER */}
       <div className="fixed top-20 right-4 min-[960px]:top-8 min-[960px]:right-8 z-40 glass-card px-4 py-2 min-[960px]:px-6 min-[960px]:py-3 rounded-full flex gap-3 min-[960px]:gap-4 text-[14px] min-[960px]:text-[20px] font-bold tracking-widest text-gray-400 border border-white/10 bg-black/40 backdrop-blur-md">
         {(['ru', 'en', 'ua', 'be'] as Language[]).map((l, index, arr) => (
-            <React.Fragment key={l}>
-                <button onClick={() => changeLang(l)} className={`hover:text-white transition-colors ${lang === l ? 'text-green-500' : ''}`}>
-                    {l.toUpperCase()}
-                </button>
-                {index < arr.length - 1 && <span className="w-[1px] bg-white/20"></span>}
-            </React.Fragment>
+          <React.Fragment key={l}>
+            <button onClick={() => changeLang(l)} className={`hover:text-white transition-colors ${lang === l ? 'text-green-500' : ''}`}>
+              {l.toUpperCase()}
+            </button>
+            {index < arr.length - 1 && <span className="w-[1px] bg-white/20"></span>}
+          </React.Fragment>
         ))}
       </div>
 
       {/* --- HERO SECTION --- */}
-      <header 
-        id="home" 
+      <header
+        id="home"
         className="h-screen flex flex-col justify-center relative px-6 min-[960px]:px-24 overflow-hidden"
       >
-         {/* Background with Dark Overlay */}
-         <div 
-            className="absolute inset-0 z-0"
-            style={{
-               backgroundImage: `linear-gradient(to right, rgba(11, 15, 25, 0.9) 0%, rgba(11, 15, 25, 0.6) 100%), url('/bg-content.jpg')`,
-               backgroundSize: 'cover',
-               backgroundPosition: 'center'
-            }}
+        {/* Background with Dark Overlay */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(11, 15, 25, 0.9) 0%, rgba(11, 15, 25, 0.6) 100%), url('/bg-content.jpg')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
         ></div>
 
-        <div className="max-w-6xl z-10 animate-fade-in-up mt-20 min-[960px]:mt-0">
-          {/* Status badge - Green */}
-          <div className="mb-6 min-[960px]:mb-10 inline-flex items-center gap-4 border-l-4 border-green-500 pl-4 min-[960px]:pl-6 bg-black/40 backdrop-blur-sm py-2 pr-6">
+        {/* ЗМІНА 1: Додано 'h-full flex flex-col justify-center' щоб контент точно центрувався по вертикалі.
+           ЗМІНА 2: Використання 'gap-[2vh]' замість фіксованих марджинів для адаптивності відступів.
+        */}
+        <div className="max-w-6xl z-10 animate-fade-in-up mt-20 min-[960px]:mt-0 flex flex-col justify-center h-full gap-[2vh] min-[960px]:gap-[3vh]">
+
+          {/* Status badge - відступи також адаптивні */}
+          <div className="inline-flex w-fit items-center gap-4 border-l-4 border-green-500 pl-4 min-[960px]:pl-6 bg-black/40 backdrop-blur-sm py-2 pr-6">
             <span className="text-[16px] min-[960px]:text-[24px] font-bold tracking-[0.2em] text-green-400 uppercase drop-shadow-[0_0_5px_rgba(74,222,128,0.5)]">
               {t.status}
             </span>
           </div>
-          
+
           {onlineCount !== null && (
-            <div className="mb-6 min-[960px]:mb-8 flex items-center gap-2 animate-fade-in-up delay-75">
-               <span className="w-2 h-2 min-[960px]:w-3 min-[960px]:h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></span>
-               <span className="text-[16px] min-[960px]:text-[20px] font-mono text-gray-300 tracking-wider">
-                  {t.online} <span className="text-white font-bold">{onlineCount}</span>
-               </span>
+            <div className="flex items-center gap-2 animate-fade-in-up delay-75">
+              <span className="w-2 h-2 min-[960px]:w-3 min-[960px]:h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></span>
+              <span className="text-[16px] min-[960px]:text-[18px] font-mono text-gray-300 tracking-wider">
+                {t.online} <span className="text-white font-bold">{onlineCount}</span>
+              </span>
             </div>
           )}
 
-          <h1 className="text-[40px] min-[960px]:text-[110px] font-display font-black text-white mb-6 min-[960px]:mb-8 leading-[0.9] uppercase drop-shadow-2xl">
+          {/* ЗМІНА 3 (ГОЛОВНА): Шрифт заголовка
+             min-[960px]:text-[11vh] -> Шрифт буде залежати від висоти екрана.
+             clamp(50px, 11vh, 110px) -> Не менше 50px, бажано 11% висоти, не більше 110px.
+          */}
+          <h1 className="font-display font-black text-white leading-[0.9] uppercase drop-shadow-2xl
+                         text-[40px] min-[960px]:text-[clamp(18px,10vh,110px)]">
             {t.heroTitle1} <br />
-            {/* Green Gradient */}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 drop-shadow-[0_0_15px_rgba(34,197,94,0.3)]">
               {t.heroTitle2}
             </span>
           </h1>
-          <p className="text-[20px] min-[960px]:text-[36px] text-gray-300 mb-10 min-[960px]:mb-16 max-w-4xl font-light leading-tight drop-shadow-lg">
+
+          {/* ЗМІНА 4: Шрифт опису
+             min-[960px]:text-[3.5vh] -> ~3.5% висоти екрана
+          */}
+          <p className="text-gray-300 max-w-6xl font-light leading-tight drop-shadow-lg
+                        text-[20px] min-[960px]:text-[clamp(14px,3vh,36px)]">
             {t.heroDesc} <br />
             <span className="text-white font-bold">{t.heroSub}</span>
           </p>
+
+          {/* ЗМІНА 5: Кнопка IP
+             Текст всередині також використовує clamp/vh
+          */}
+          <div className="mt-2 min-[960px]:mt-[0vh] h-36 flex items-center">
+            <button
+              onClick={handleCopyIp}
+              className="group relative flex items-center gap-4 
+                         px-6 py-4 min-[960px]:px-8 min-[960px]:py-[2.5vh] 
+                         bg-white/5 border-2 border-green-500/50 rounded-xl backdrop-blur-md 
+                         transition-all duration-300 ease-out
+                         hover:scale-105 hover:bg-green-500/10 hover:border-green-400 
+                         hover:shadow-[0_0_40px_rgba(34,197,94,0.4)]
+                         active:scale-95 active:border-green-600 cursor-pointer"
+            >
+              <i className={`fas ${isCopied ? 'fa-check text-green-400' : 'fa-copy text-gray-400 group-hover:text-white'} 
+                             text-[24px] min-[960px]:text-[clamp(24px,3.5vh,32px)] transition-all duration-300`}></i>
+
+              <div className="flex flex-col items-start">
+                <span className={`font-mono font-bold tracking-wider leading-none transition-all duration-300
+                                  ${isCopied ? 'text-green-400' : 'text-white'}
+                                  text-[24px] min-[960px]:text-[clamp(24px,4.5vh,40px)]`}>
+                  {isCopied ? t.ipCopied || "COPIED!" : SERVER_IP}
+                </span>
+
+                <span className="text-[12px] mt-1 min-[960px]:text-[1.5vh] text-gray-500 uppercase tracking-widest group-hover:text-green-400/80 transition-colors">
+                  {isCopied ? "" : t.copyTooltip || "Click to copy"}
+                </span>
+              </div>
+
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-green-500/0 via-green-500/10 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            </button>
+          </div>
         </div>
 
         {/* BOTTOM STATUS BAR */}
         <div className="hidden min-[960px]:flex absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-md p-6 border-t border-white/10 justify-between items-center text-[20px] font-mono text-gray-400">
-            <span>SYS.VER. 0.0.2-BETA</span>
-            <span>HYPIXEL STUDIOS / FAN PROJECT</span>
-            <span>REGION: RU</span>
+          <span>SYS.VER. 0.0.2-BETA</span>
+          <span>HYPIXEL STUDIOS / FAN PROJECT</span>
+          <span>REGION: RU</span>
         </div>
       </header>
 
@@ -207,7 +275,7 @@ export default function Home() {
           <h2 className="text-[48px] min-[960px]:text-[96px] font-display font-bold text-white leading-none">{t.newsTitle}</h2>
           <p className="text-[18px] min-[960px]:text-[28px] text-gray-500 max-w-xl min-[960px]:text-right">{t.newsSubtitle}</p>
         </div>
-        
+
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-8 min-[960px]:gap-12">
           {/* Discord Card - Now with Brand Colors */}
           <a href="https://discord.gg/SMK6CF2Etq" className="bg-[#111625] border border-white/5 p-8 min-[960px]:p-12 group relative overflow-hidden h-full hover:border-[#5865F2] transition-colors duration-300">
@@ -232,28 +300,28 @@ export default function Home() {
           {t.serversTitle} <span className="text-green-500 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]">{t.serversTitleHighlight}</span>
         </h2>
         <div className="grid grid-cols-1 min-[960px]:grid-cols-2 gap-12 min-[960px]:gap-16 max-w-7xl mx-auto">
-            {/* Card 1 - Survival (Active Green) */}
-            <div className="bg-[#161B28] p-8 min-[960px]:p-12 border-t-4 border-green-500 shadow-2xl flex flex-col relative group hover:bg-[#1C2230] transition-colors">
-                <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-[#0B0F19] border-2 border-green-500 flex items-center justify-center rounded-lg shadow-[0_0_20px_rgba(34,197,94,0.4)] z-10">
-                    <i className="fas fa-compass text-[30px] min-[960px]:text-[40px] text-green-500"></i>
-                </div>
-                <h3 className="text-[32px] min-[960px]:text-[40px] font-bold text-white mt-8 mb-4 min-[960px]:mb-6">{t.serverName}</h3>
-                <p className="text-[18px] min-[960px]:text-[24px] text-gray-400 mb-6 min-[960px]:mb-8 font-light leading-relaxed flex-grow">{t.serverDesc}</p>
-                <div className="pt-6 min-[960px]:pt-8 border-t border-white/10">
-                    <span className="inline-block px-4 py-2 bg-green-900/30 text-green-400 border border-green-500/30 rounded text-sm font-bold tracking-wider uppercase">Online</span>
-                </div>
+          {/* Card 1 - Survival (Active Green) */}
+          <div className="bg-[#161B28] p-8 min-[960px]:p-12 border-t-4 border-green-500 shadow-2xl flex flex-col relative group hover:bg-[#1C2230] transition-colors">
+            <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-[#0B0F19] border-2 border-green-500 flex items-center justify-center rounded-lg shadow-[0_0_20px_rgba(34,197,94,0.4)] z-10">
+              <i className="fas fa-compass text-[30px] min-[960px]:text-[40px] text-green-500"></i>
             </div>
-             {/* Card 2 - Minigames (Inactive Gray/White) */}
-            <div className="bg-[#161B28] p-8 min-[960px]:p-12 border-t-4 border-gray-600 opacity-60 flex flex-col relative grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                 <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-[#0B0F19] border-2 border-gray-500 flex items-center justify-center rounded-lg z-10">
-                    <i className="fas fa-gamepad text-[24px] min-[960px]:text-[30px] text-gray-400"></i>
-                </div>
-                <h3 className="text-[32px] min-[960px]:text-[40px] font-bold text-white mt-8 mb-4 min-[960px]:mb-6">{t.miniName}</h3>
-                <p className="text-[18px] min-[960px]:text-[24px] text-gray-500 mb-6 min-[960px]:mb-8 font-light leading-relaxed flex-grow">{t.miniDesc}</p>
-                <div className="pt-6 min-[960px]:pt-8 border-t border-white/5">
-                    <span className="inline-block px-4 py-2 bg-white/5 text-gray-400 border border-white/10 rounded text-sm font-bold tracking-wider uppercase">{t.comingSoon}</span>
-                </div>
+            <h3 className="text-[32px] min-[960px]:text-[40px] font-bold text-white mt-8 mb-4 min-[960px]:mb-6">{t.serverName}</h3>
+            <p className="text-[18px] min-[960px]:text-[24px] text-gray-400 mb-6 min-[960px]:mb-8 font-light leading-relaxed flex-grow">{t.serverDesc}</p>
+            <div className="pt-6 min-[960px]:pt-8 border-t border-white/10">
+              <span className="inline-block px-4 py-2 bg-green-900/30 text-green-400 border border-green-500/30 rounded text-sm font-bold tracking-wider uppercase">Online</span>
             </div>
+          </div>
+          {/* Card 2 - Minigames (Inactive Gray/White) */}
+          <div className="bg-[#161B28] p-8 min-[960px]:p-12 border-t-4 border-gray-600 opacity-60 flex flex-col relative grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+            <div className="absolute -top-8 min-[960px]:-top-10 left-8 min-[960px]:left-10 w-16 h-16 min-[960px]:w-20 min-[960px]:h-20 bg-[#0B0F19] border-2 border-gray-500 flex items-center justify-center rounded-lg z-10">
+              <i className="fas fa-gamepad text-[24px] min-[960px]:text-[30px] text-gray-400"></i>
+            </div>
+            <h3 className="text-[32px] min-[960px]:text-[40px] font-bold text-white mt-8 mb-4 min-[960px]:mb-6">{t.miniName}</h3>
+            <p className="text-[18px] min-[960px]:text-[24px] text-gray-500 mb-6 min-[960px]:mb-8 font-light leading-relaxed flex-grow">{t.miniDesc}</p>
+            <div className="pt-6 min-[960px]:pt-8 border-t border-white/5">
+              <span className="inline-block px-4 py-2 bg-white/5 text-gray-400 border border-white/10 rounded text-sm font-bold tracking-wider uppercase">{t.comingSoon}</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -270,7 +338,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-end items-start min-[960px]:items-end">
             <p className="text-[18px] min-[960px]:text-[28px] text-green-500 uppercase tracking-widest font-bold">Administration Contact</p>
-             <p className="text-gray-500 mt-2">Available via Discord & Telegram</p>
+            <p className="text-gray-500 mt-2">Available via Discord & Telegram</p>
           </div>
         </div>
       </section>
