@@ -6,7 +6,7 @@ import AsideNavbar from './components/AsideNavbar';
 // ... (Тут твій об'єкт translations без змін) ...
 const translations = {
   en: {
-    status: "Status: Coming Soon",
+    status: "Status: Open to Play",
     online: "Players Online Discord:",
     heroTitle1: "New Era",
     heroTitle2: "Starts Today",
@@ -31,7 +31,7 @@ const translations = {
     footerSub: "Don't miss the start."
   },
   ru: {
-    status: "Статус: Скоро Запуск",
+    status: "Статус: Открыт для Игры",
     online: "Игроков Онлайн Discord:",
     heroTitle1: "Новая Эра",
     heroTitle2: "Начинается Сегодня",
@@ -56,7 +56,7 @@ const translations = {
     footerSub: "Не пропусти старт."
   },
   ua: {
-    status: "Статус: Скоро Запуск",
+    status: "Статус: Відкритий для Гри",
     online: "Гравців Онлайн Discord:",
     heroTitle1: "Нова Ера",
     heroTitle2: "Починається Сьогодні",
@@ -81,7 +81,7 @@ const translations = {
     footerSub: "Не пропусти старт."
   },
   be: {
-    status: "Статус: Хутка Запуск",
+    status: "Статус: Адкрыты для Гульні",
     online: "Гульцоў Анлайн Discord:",
     heroTitle1: "Новая Эра",
     heroTitle2: "Пачынаецца Сёння",
