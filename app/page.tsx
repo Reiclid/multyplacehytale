@@ -198,7 +198,7 @@ export default function Home() {
           </div>
 
           {onlineCount !== null && (
-            <div className="flex items-center gap-2 animate-fade-in-up delay-75">
+            <div className="flex ml-1 items-center gap-2 animate-fade-in-up delay-75">
               <span className="w-2 h-2 min-[960px]:w-3 min-[960px]:h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></span>
               <span className="text-[16px] min-[960px]:text-[18px] font-mono text-gray-300 tracking-wider">
                 {t.online} <span className="text-white font-bold">{onlineCount}</span>
